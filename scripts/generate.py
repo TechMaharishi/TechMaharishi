@@ -203,14 +203,14 @@ def build_hero(t):
         + text(755, 46, "FULL-STACK DEVELOPER", "lab", "end")
         + l1 + l2
         + f'<circle class="blink" cx="{red_x}" cy="{red_y}" r="4.5" fill="{ACCENT}"/>'
-        + text(45, 222, "CUSTOM SOFTWARE + PRODUCTS", "lab")
+        + text(45, 222, "CUSTOM SOFTWARE FOR ORGANIZATIONS", "lab")
         + text(755, 222, "GITHUB / SINCE 2018", "lab", "end")
     )
     return svg(W, H, t, ["mono400"], "Vishal Kumar, full-stack developer", body, pat)
 
 
 def build_about(t, profile):
-    H = 334
+    H = 346
     year = profile["created_at"][:4]
     rows = [
         ("LOCATION", (profile.get("location") or "-").upper(), None),
@@ -224,11 +224,12 @@ def build_about(t, profile):
         panel(W, H, t),
         text(40, 46, "ABOUT", "lab"),
         text(760, 46, "PROFILE", "labd", "end"),
-        text(40, 130, "Crafting elegant", "h"),
-        text(40, 172, "solutions for", "h"),
-        text(40, 214, "complex problems.", "h"),
-        text(40, 270, "Full-stack developer building custom software", "body"),
-        text(40, 292, "for organizations, and products that scale.", "body"),
+        text(40, 130, "I build software", "h"),
+        text(40, 172, "that helps teams", "h"),
+        text(40, 214, "reach their goals.", "h"),
+        text(40, 270, "I'm a full-stack developer working across", "body"),
+        text(40, 292, "web, mobile and backend. I build custom", "body"),
+        text(40, 314, "software for organizations.", "body"),
     ]
     y = 84
     for label, value, color in rows:
@@ -251,7 +252,7 @@ def build_stack(t):
         ("BACKEND", ["NODE.JS", "NESTJS", "EXPRESS", "TYPEORM", "MONGOOSE", "BULL"]),
         ("DATA + AI", ["MONGODB", "REDIS", "OPENAI"]),
     ]
-    parts = [text(40, 46, "STACK", "lab"), text(760, 46, "WORKED WITH", "labd", "end")]
+    parts = [text(40, 46, "STACK", "lab"), text(760, 46, "TOOLS I USE", "labd", "end")]
     y = 92
     for label, tags in groups:
         parts.append(text(40, y, label, "lab"))
