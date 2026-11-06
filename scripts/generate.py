@@ -143,6 +143,11 @@ def panel(w, h, t):
     return f'<rect x=".5" y=".5" width="{w-1}" height="{h-1}" rx="16" fill="{t["black"]}" stroke="{t["border"]}"/>'
 
 
+def section(x, y, s):
+    """Panel label with a red signal dot, Nothing's recording-light motif."""
+    return f'<circle cx="{x + 3}" cy="{y - 4}" r="3" fill="{ACCENT}"/>' + text(x + 14, y, s, "lab")
+
+
 def text(x, y, s, cls, anchor="start"):
     a = "" if anchor == "start" else f' text-anchor="{anchor}"'
     return f'<text x="{x}" y="{y}" class="{cls}"{a}>{escape(s)}</text>'
@@ -222,11 +227,11 @@ def build_about(t, profile):
         rows.append(("STATUS", "OPEN TO WORK", SUCCESS))
     parts = [
         panel(W, H, t),
-        text(40, 46, "ABOUT", "lab"),
+        section(40, 46, "ABOUT"),
         text(760, 46, "PROFILE", "labd", "end"),
         text(40, 130, "You bring the", "h"),
         text(40, 172, "problem. I ship", "h"),
-        text(40, 214, "the solution.", "h"),
+        f'<text x="40" y="214" class="h">the solution<tspan style="fill:{ACCENT}">.</tspan></text>',
         text(40, 270, "Full-stack developer across web, mobile and", "body"),
         text(40, 292, "backend. I help businesses untangle messy", "body"),
         text(40, 314, "problems and ship software that holds up.", "body"),
@@ -252,7 +257,7 @@ def build_stack(t):
         ("BACKEND", ["NODE.JS", "NESTJS", "EXPRESS", "TYPEORM", "MONGOOSE", "BULL"]),
         ("DATA + AI", ["MONGODB", "REDIS", "OPENAI"]),
     ]
-    parts = [text(40, 46, "STACK", "lab"), text(760, 46, "TOOLS I USE", "labd", "end")]
+    parts = [section(40, 46, "STACK"), text(760, 46, "TOOLS I USE", "labd", "end")]
     y = 92
     for label, tags in groups:
         parts.append(text(40, y, label, "lab"))
@@ -282,7 +287,7 @@ def build_activity(t, total, days, profile):
     num, _ = dot_text(str(total), 40, 84, 11, 3.4, t["display"])
     parts = [
         panel(W, H, t),
-        text(40, 46, "ACTIVITY", "lab"),
+        section(40, 46, "ACTIVITY"),
         text(760, 46, "LAST 12 MONTHS", "labd", "end"),
         num,
         text(310, 104, "CONTRIBUTIONS", "disp"),
@@ -290,13 +295,20 @@ def build_activity(t, total, days, profile):
     stats = [("ACTIVE DAYS", str(active)), ("BEST DAY", str(best)), ("PUBLIC REPOS", str(profile["public_repos"]))]
     for i, (k, v) in enumerate(stats):
         parts.append(text(520, 78 + i * 22, k, "lab"))
-        parts.append(text(760, 78 + i * 22, v, "val", "end"))
+        if k == "BEST DAY":
+            parts.append(f'<text x="760" y="{78 + i * 22}" class="val" text-anchor="end" style="fill:{ACCENT}">{v}</text>')
+        else:
+            parts.append(text(760, 78 + i * 22, v, "val", "end"))
 
     last_month = None
     cells = {0: [], 1: [], 2: [], 3: [], 4: []}
+    best_pt = None
     for d, level, _n in days:
         col = (d - sunday0).days // 7
         row = (d.weekday() + 1) % 7
+        if _n == best and best_pt is None:
+            best_pt = (gx + col * pitch, gy + row * pitch)
+            continue
         cells[level].append((gx + col * pitch, gy + row * pitch))
         if row == 0 and d.month != last_month:
             last_month = d.month
@@ -309,9 +321,12 @@ def build_activity(t, total, days, profile):
         opa = f' opacity="{op}"' if op != 1.0 else ""
         parts.append(f'<g fill="{fill}"{opa}>{circles}</g>')
 
+    if best_pt:
+        parts.append(f'<circle cx="{best_pt[0]:.1f}" cy="{best_pt[1]:.1f}" r="3.8" fill="{ACCENT}"/>')
+
     # legend
     ly = H - 28
-    lx = 676  # first legend dot centre
+    lx = 652  # first legend dot centre ("MORE" ends at the 760 margin)
     parts.append(text(lx - 14, ly + 4, "LESS", "labd", "end"))
     for i in range(5):
         fill, op = lv_style[i]
