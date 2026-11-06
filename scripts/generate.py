@@ -231,7 +231,7 @@ def build_about(t, profile):
         text(760, 46, "PROFILE", "labd", "end"),
         text(40, 130, "You bring the", "h"),
         text(40, 172, "problem. I ship", "h"),
-        f'<text x="40" y="214" class="h">the solution<tspan style="fill:{ACCENT}">.</tspan></text>',
+        f'<text x="40" y="214" class="h">the solution<tspan dx="3" style="fill:{ACCENT}">.</tspan></text>',
         text(40, 270, "Full-stack developer across web, mobile and", "body"),
         text(40, 292, "backend. I help businesses untangle messy", "body"),
         text(40, 314, "problems and ship software that holds up.", "body"),
