@@ -203,7 +203,7 @@ def build_hero(t):
         + text(755, 46, "FULL-STACK DEVELOPER", "lab", "end")
         + l1 + l2
         + f'<circle class="blink" cx="{red_x}" cy="{red_y}" r="4.5" fill="{ACCENT}"/>'
-        + text(45, 222, "CUSTOM SOFTWARE FOR ORGANIZATIONS", "lab")
+        + text(45, 222, "I TURN HARD PROBLEMS INTO WORKING SOFTWARE", "lab")
         + text(755, 222, "GITHUB / SINCE 2018", "lab", "end")
     )
     return svg(W, H, t, ["mono400"], "Vishal Kumar, full-stack developer", body, pat)
@@ -215,7 +215,7 @@ def build_about(t, profile):
     rows = [
         ("LOCATION", (profile.get("location") or "-").upper(), None),
         ("ROLE", "FULL-STACK DEV", None),
-        ("FOCUS", "CUSTOM SOFTWARE", None),
+        ("FOCUS", "END-TO-END DELIVERY", None),
         ("ON GITHUB", f"SINCE {year}", None),
     ]
     if profile.get("hireable"):
@@ -224,12 +224,12 @@ def build_about(t, profile):
         panel(W, H, t),
         text(40, 46, "ABOUT", "lab"),
         text(760, 46, "PROFILE", "labd", "end"),
-        text(40, 130, "I build software", "h"),
-        text(40, 172, "that helps teams", "h"),
-        text(40, 214, "reach their goals.", "h"),
-        text(40, 270, "I'm a full-stack developer working across", "body"),
-        text(40, 292, "web, mobile and backend. I build custom", "body"),
-        text(40, 314, "software for organizations.", "body"),
+        text(40, 130, "You bring the", "h"),
+        text(40, 172, "problem. I ship", "h"),
+        text(40, 214, "the solution.", "h"),
+        text(40, 270, "Full-stack developer across web, mobile and", "body"),
+        text(40, 292, "backend. I help businesses untangle messy", "body"),
+        text(40, 314, "problems and ship software that holds up.", "body"),
     ]
     y = 84
     for label, value, color in rows:
