@@ -127,7 +127,9 @@ def css(t):
         f".body{{font:400 14px 'Space Grotesk',sans-serif;letter-spacing:.01em;fill:{t['secondary']}}}"
         ".blink{animation:blink 2s steps(1) infinite}"
         "@keyframes blink{0%{opacity:1}50%{opacity:.15}}"
-        "@media (prefers-reduced-motion:reduce){.blink{animation:none}}"
+        ".b{animation:boot 140ms cubic-bezier(.25,.1,.25,1) both}"
+        "@keyframes boot{from{opacity:0}to{opacity:1}}"
+        "@media (prefers-reduced-motion:reduce){.blink,.b,.redboot{animation:none}}"
     )
 
 
@@ -157,15 +159,26 @@ def mono_w(s, size, ls_em=0.0):
     return len(s) * size * (MONO_ADV + ls_em)
 
 
-def dot_text(s, x0, y0, pitch, r, fill, opacity=1.0):
-    """Dot-matrix string. (x0, y0) = centre of the first dot. Returns (svg, columns)."""
+BOOT_START_MS, BOOT_STEP_MS = 250, 24
+
+
+def dot_text(s, x0, y0, pitch, r, fill, opacity=1.0, boot_col0=None):
+    """Dot-matrix string. (x0, y0) = centre of the first dot. Returns (svg, columns).
+
+    With boot_col0 set, each dot switches on in a left-to-right column sweep
+    (Glyph Matrix style boot). boot_col0 is the sweep column of the first dot.
+    """
     out, col = [], 0
     for ch in s:
         g = GLYPHS[ch]
         for ry, row in enumerate(g):
             for rx, bit in enumerate(row):
                 if bit == "1":
-                    out.append(f'<circle cx="{x0 + (col + rx) * pitch}" cy="{y0 + ry * pitch}" r="{r}"/>')
+                    anim = ""
+                    if boot_col0 is not None:
+                        delay = BOOT_START_MS + (boot_col0 + col + rx) * BOOT_STEP_MS
+                        anim = f' class="b" style="animation-delay:{delay}ms"'
+                    out.append(f'<circle cx="{x0 + (col + rx) * pitch}" cy="{y0 + ry * pitch}" r="{r}"{anim}/>')
         col += len(g[0]) + 1
     op = f' opacity="{opacity}"' if opacity != 1.0 else ""
     return f'<g fill="{fill}"{op}>{"".join(out)}</g>', col - 1
@@ -198,16 +211,19 @@ def build_hero(t):
     # Dot centres sit on a 10px lattice offset (5,5) so the bg pattern lines up.
     pitch, r, x0, y0 = 10, 3.5, 45, 95
     pat = dot_bg_pattern(t, pitch, 0, 0, 0.9)
-    l1, _ = dot_text("VISHAL", x0, y0, pitch, r, t["display"])
-    l2, cols = dot_text("KUMAR", x0 + 38 * pitch, y0, pitch, r, t["display"], 0.4)
+    l1, _ = dot_text("VISHAL", x0, y0, pitch, r, t["display"], boot_col0=0)
+    l2, cols = dot_text("KUMAR", x0 + 38 * pitch, y0, pitch, r, t["display"], 0.4, boot_col0=38)
     red_x, red_y = x0 + (38 + cols + 1) * pitch, y0 + 6 * pitch
+    # red dot switches on after the last column, holds, then starts its slow blink
+    red_on = BOOT_START_MS + (38 + cols + 4) * BOOT_STEP_MS
+    red_anim = f"animation:boot 140ms {red_on}ms both,blink 2s steps(1) {red_on + 1200}ms infinite"
     body = (
         panel(W, H, t)
         + f'<rect x="1" y="1" width="{W-2}" height="{H-2}" rx="15" fill="url(#dg)"/>'
         + text(45, 46, "TECHMAHARISHI", "disp")
         + text(755, 46, "FULL-STACK DEVELOPER", "lab", "end")
         + l1 + l2
-        + f'<circle class="blink" cx="{red_x}" cy="{red_y}" r="4.5" fill="{ACCENT}"/>'
+        + f'<circle class="redboot" cx="{red_x}" cy="{red_y}" r="4.5" fill="{ACCENT}" style="{red_anim}"/>'
         + text(45, 222, "I TURN HARD PROBLEMS INTO WORKING SOFTWARE", "lab")
         + text(755, 222, "GITHUB / SINCE 2018", "lab", "end")
     )
