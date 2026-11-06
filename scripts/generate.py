@@ -29,10 +29,12 @@ THEMES = {
         disabled="#666666", secondary="#999999", primary="#E8E8E8", display="#FFFFFF",
         dot_bg="#2A2A2A", dot_bg_op="0.9",
     ),
+    # Light = printed technical manual: white paper panels, hairline borders,
+    # greys darkened so small labels stay readable on GitHub's white page.
     "light": dict(
-        black="#F5F5F5", surface="#FFFFFF", border="#E8E8E8", border_v="#CCCCCC",
-        disabled="#999999", secondary="#666666", primary="#1A1A1A", display="#000000",
-        dot_bg="#D4D4D4", dot_bg_op="0.9",
+        black="#FFFFFF", surface="#FFFFFF", border="#E6E6E6", border_v="#CFCFCF",
+        disabled="#8A8A8A", secondary="#5E5E5E", primary="#141414", display="#000000",
+        dot_bg="#E0E0E0", dot_bg_op="0.9",
     ),
 }
 ACCENT = "#D71921"
@@ -365,7 +367,7 @@ def main():
     print(f"{USER}: {len(repos)} repos, {total} contributions, {len(days)} days")
 
     for mode, t in THEMES.items():
-        write(f"hero-{mode}.svg", build_hero(t))
+        write(f"hero-{mode}.svg", build_hero(THEMES["dark"]))  # black screen in both modes
         write(f"about-{mode}.svg", build_about(t, profile))
         write(f"stack-{mode}.svg", build_stack(t))
         write(f"activity-{mode}.svg", build_activity(t, total, days, profile))
