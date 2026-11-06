@@ -201,34 +201,32 @@ def build_hero(t):
         + text(750, 46, "FULL-STACK DEVELOPER", "lab", "end")
         + l1 + l2
         + f'<circle class="blink" cx="{red_x}" cy="{red_y}" r="7.5" fill="{ACCENT}"/>'
-        + text(50, 440, "BUILDING SCALABLE SAAS APPS", "lab")
+        + text(50, 440, "CUSTOM SOFTWARE + PRODUCTS", "lab")
         + text(750, 440, "GITHUB / SINCE 2018", "lab", "end")
     )
     return svg(W, H, t, ["mono400"], "Vishal Kumar, full-stack developer", body, pat)
 
 
 def build_about(t, profile):
-    H = 372
+    H = 334
     year = profile["created_at"][:4]
-    company = (profile.get("company") or "").strip() or "-"
     rows = [
         ("LOCATION", (profile.get("location") or "-").upper(), None),
-        ("COMPANY", company.upper(), None),
         ("ROLE", "FULL-STACK DEV", None),
-        ("FOCUS", "SCALABLE SAAS", None),
+        ("FOCUS", "CUSTOM SOFTWARE", None),
         ("ON GITHUB", f"SINCE {year}", None),
     ]
     if profile.get("hireable"):
         rows.append(("STATUS", "OPEN TO WORK", SUCCESS))
     parts = [
         panel(W, H, t),
-        text(40, 46, "01 — ABOUT", "lab"),
+        text(40, 46, "ABOUT", "lab"),
         text(760, 46, "PROFILE", "labd", "end"),
         text(40, 130, "Crafting elegant", "h"),
         text(40, 172, "solutions for", "h"),
         text(40, 214, "complex problems.", "h"),
-        text(40, 270, "Full-stack developer building", "body"),
-        text(40, 292, "scalable SaaS applications.", "body"),
+        text(40, 270, "Full-stack developer building custom software", "body"),
+        text(40, 292, "for organizations, and products that scale.", "body"),
     ]
     y = 84
     for label, value, color in rows:
@@ -244,46 +242,15 @@ def build_about(t, profile):
     return svg(W, H, t, ["mono400", "sans400"], "About Vishal Kumar", "".join(parts))
 
 
-def build_stack(t, repos):
-    # language share across original (non-fork) repos
-    counts = {}
-    for r in repos:
-        if not r["fork"] and r["language"]:
-            counts[r["language"]] = counts.get(r["language"], 0) + 1
-    top = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))[:5]
-    total = sum(counts.values())
-
+def build_stack(t):
     groups = [
-        ("BACKEND", ["NESTJS", "TYPEORM", "MONGOOSE", "REDIS", "BULL", "OPENAI"]),
-        ("FRONTEND", ["REACT", "NEXT.JS", "TAILWIND", "ZUSTAND", "VITE"]),
-        ("RUNTIME + TOOLS", ["NODE.JS", "EXPRESS", "TYPESCRIPT", "CAPACITOR"]),
+        ("FRONTEND", ["REACT", "NEXT.JS", "TYPESCRIPT", "JAVASCRIPT", "TAILWIND", "REDUX", "ZUSTAND", "VITE"]),
+        ("MOBILE", ["REACT NATIVE", "EXPO", "CAPACITOR"]),
+        ("BACKEND", ["NODE.JS", "NESTJS", "EXPRESS", "TYPEORM", "MONGOOSE", "BULL"]),
+        ("DATA + AI", ["MONGODB", "REDIS", "OPENAI"]),
     ]
-    H = 636
-    parts = [
-        panel(W, H, t),
-        text(40, 46, "02 — STACK", "lab"),
-        text(760, 46, "BY REPO COUNT + DAY JOB", "labd", "end"),
-        text(40, 94, "LANGUAGES", "lab"),
-    ]
-    N, x0, bw = 50, 40, 720
-    gap = 2
-    sw = (bw - gap * (N - 1)) / N
-    y = 120
-    opac = [1.0, 0.7, 0.5, 0.4, 0.3]
-    for i, (lang, n) in enumerate(top):
-        share = n / total
-        filled = max(1, round(share * N))
-        parts.append(text(40, y + 14, lang.upper(), "disp"))
-        parts.append(text(760, y + 14, f"{n} REPOS · {round(share * 100)}%", "lab", "end"))
-        segs = []
-        for s in range(N):
-            fill = t["display"] if s < filled else t["border"]
-            op = f' opacity="{opac[i]}"' if s < filled and opac[i] != 1.0 else ""
-            segs.append(f'<rect x="{x0 + s * (sw + gap):.2f}" y="{y + 26}" width="{sw:.2f}" height="10" fill="{fill}"{op}/>')
-        parts.append("".join(segs))
-        y += 56
-
-    y += 14
+    parts = [text(40, 46, "STACK", "lab"), text(760, 46, "WORKED WITH", "labd", "end")]
+    y = 92
     for label, tags in groups:
         parts.append(text(40, y, label, "lab"))
         tx, ty = 40, y + 14
@@ -296,33 +263,9 @@ def build_stack(t, repos):
                 f'<text x="{tx + tw / 2:.1f}" y="{ty + 17}" class="lab" text-anchor="middle" style="fill:{t["primary"]}">{escape(tag)}</text>'
             )
             tx += tw + 8
-        y = ty + 26 + 30
-    return svg(W, H, t, ["mono400"], "Languages by repository and core technologies", "".join(parts))
-
-
-def build_work_header(t, count):
-    H = 56
-    body = (
-        text(0, 30, "03 — SELECTED WORK", "lab")
-        + text(W, 30, f"{count:02d} / PROJECTS", "labd", "end")
-        + f'<line x1="0" y1="46" x2="{W}" y2="46" stroke="{t["border"]}"/>'
-    )
-    return svg(W, H, t, ["mono400"], "Selected work", body)
-
-
-def build_card(t, idx, title, desc, tags, url_label):
-    cw, H = 396, 204
-    lines = wrap(desc, 44)[:3]
-    parts = [
-        panel(cw, H, t),
-        text(24, 38, f"{idx:02d}", "lab"),
-        text(cw - 24, 38, url_label, "disp" if "LIVE" in url_label else "lab", "end"),
-        text(24, 84, title, "h2"),
-    ]
-    for i, ln in enumerate(lines):
-        parts.append(text(24, 114 + i * 20, ln, "body"))
-    parts.append(text(24, H - 24, " · ".join(tags), "labd"))
-    return svg(cw, H, t, ["mono400", "sans400", "sans500"], f"{title}: {desc}", "".join(parts))
+        y = ty + 26 + 34
+    H = int(y - 4)
+    return svg(W, H, t, ["mono400"], "Technologies and tools", panel(W, H, t) + "".join(parts))
 
 
 def build_activity(t, total, days, profile):
@@ -336,7 +279,7 @@ def build_activity(t, total, days, profile):
     num, _ = dot_text(str(total), 40, 84, 11, 3.4, t["display"])
     parts = [
         panel(W, H, t),
-        text(40, 46, "04 — ACTIVITY", "lab"),
+        text(40, 46, "ACTIVITY", "lab"),
         text(760, 46, "LAST 12 MONTHS", "labd", "end"),
         num,
         text(310, 104, "CONTRIBUTIONS", "disp"),
@@ -375,41 +318,6 @@ def build_activity(t, total, days, profile):
     return svg(W, H, t, ["mono400", "mono700"], f"{total} contributions in the last year", "".join(parts))
 
 
-def build_footer(t):
-    H = 96
-    today = dt.date.today().isoformat()
-    body = (
-        panel(W, H, t)
-        + text(40, 54, "[ END OF FILE ]", "disp")
-        + text(760, 54, f"SYNCED {today}", "labd", "end")
-        + f'<circle cx="{40 + mono_w("[ END OF FILE ]", 12, 0.08) + 18:.1f}" cy="50" r="3" fill="{ACCENT}" class="blink"/>'
-    )
-    return svg(W, H, t, ["mono400"], "End of file", body)
-
-
-# ── curated projects (copy written from each repo's README) ──────────────────
-PROJECTS = [
-    ("StackTube_AI", "StackTube AI",
-     "AI-curated computer engineering videos with smart search refinement and focused learning paths.",
-     ["TYPESCRIPT", "AI SEARCH"]),
-    ("react_to_apk", "APK Automator",
-     "Upload a React build, get an Android APK. Wraps your app in Capacitor and builds it for you.",
-     ["NEXT.JS", "CAPACITOR", "ANDROID"]),
-    ("roadmap", "The Depth Roadmap",
-     "Self-hosted tracker for an 8-track learning roadmap. Username and PIN login, progress in MongoDB.",
-     ["HTML", "MONGODB", "VERCEL"]),
-    ("webworks", "WebWorks",
-     "Marketing site for a digital agency: strategic design, content and performance marketing.",
-     ["TYPESCRIPT"]),
-    ("pycray", "Pycray",
-     "Mini event manager. Create, search and delete events with persistent local state.",
-     ["NEXT.JS", "ZUSTAND", "TAILWIND"]),
-    ("Movix", "Movix",
-     "Movie and TV discovery with search, trending and top-rated lists, and infinite scroll.",
-     ["JAVASCRIPT"]),
-]
-
-
 def write(name, content):
     with open(os.path.join(ASSETS, name), "w", encoding="utf-8") as f:
         f.write(content)
@@ -420,27 +328,15 @@ def main():
     profile = fetch_profile()
     repos = fetch_repos()
     total, days = fetch_contributions()
-    by_name = {r["name"]: r for r in repos}
     print(f"{USER}: {len(repos)} repos, {total} contributions, {len(days)} days")
-
-    cards = []
-    for repo, title, desc, tags in PROJECTS:
-        r = by_name.get(repo)
-        home = (r or {}).get("homepage")
-        url = home if home else f"https://github.com/{USER}/{repo}"
-        cards.append((repo, title, desc, tags, url, "LIVE ↗" if home else "REPO ↗"))
 
     for mode, t in THEMES.items():
         write(f"hero-{mode}.svg", build_hero(t))
         write(f"about-{mode}.svg", build_about(t, profile))
-        write(f"stack-{mode}.svg", build_stack(t, repos))
-        write(f"work-header-{mode}.svg", build_work_header(t, len(cards)))
-        for i, (repo, title, desc, tags, _url, label) in enumerate(cards, 1):
-            write(f"card-{i:02d}-{mode}.svg", build_card(t, i, title, desc, tags, label))
+        write(f"stack-{mode}.svg", build_stack(t))
         write(f"activity-{mode}.svg", build_activity(t, total, days, profile))
-        write(f"footer-{mode}.svg", build_footer(t))
 
-    write_readme(cards)
+    write_readme()
 
 
 def pic(name, alt, extra=""):
@@ -451,43 +347,16 @@ def pic(name, alt, extra=""):
     )
 
 
-def write_readme(cards):
-    rows = []
-    for i in range(0, len(cards), 2):
-        pair = []
-        for j, (repo, title, desc, _tags, url, _l) in enumerate(cards[i:i + 2], i + 1):
-            pair.append(f'<a href="{url}">{pic(f"card-{j:02d}", f"{title}: {desc}", "49%")}</a>')
-        rows.append("<p align=\"center\">" + "".join(pair) + "</p>")
-
-    readme = f"""<!-- Generated by scripts/generate.py. Edit the script, not the SVGs. -->
-<p align="center">
-{pic("hero", "Vishal Kumar, full-stack developer")}
-</p>
-
-<p align="center">
-{pic("about", "About Vishal Kumar")}
-</p>
-
-<p align="center">
-{pic("stack", "Languages by repository and core technologies")}
-</p>
-
-<p align="center">
-{pic("work-header", "Selected work")}
-</p>
-
-{chr(10).join(rows)}
-
-<p align="center">
-{pic("activity", "Contribution activity over the last 12 months")}
-</p>
-
-<p align="center">
-{pic("footer", "End of file")}
-</p>
-"""
+def write_readme():
+    blocks = [
+        ("hero", "Vishal Kumar, full-stack developer"),
+        ("about", "About Vishal Kumar"),
+        ("stack", "Technologies and tools"),
+        ("activity", "Contribution activity over the last 12 months"),
+    ]
+    body = "\n\n".join(f'<p align="center">\n{pic(n, a)}\n</p>' for n, a in blocks)
     with open(os.path.join(ROOT, "README.md"), "w", encoding="utf-8") as f:
-        f.write(readme)
+        f.write("<!-- Generated by scripts/generate.py. Edit the script, not the SVGs. -->\n" + body + "\n")
     print("  README.md")
 
 

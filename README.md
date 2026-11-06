@@ -8,21 +8,9 @@
 </p>
 
 <p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img src="assets/stack-dark.svg" alt="Languages by repository and core technologies" width="100%"></picture>
+<picture><source media="(prefers-color-scheme: dark)" srcset="assets/stack-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/stack-light.svg"><img src="assets/stack-dark.svg" alt="Technologies and tools" width="100%"></picture>
 </p>
-
-<p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/work-header-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/work-header-light.svg"><img src="assets/work-header-dark.svg" alt="Selected work" width="100%"></picture>
-</p>
-
-<p align="center"><a href="https://stack-tube-ai-gamma.vercel.app/"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-01-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/card-01-light.svg"><img src="assets/card-01-dark.svg" alt="StackTube AI: AI-curated computer engineering videos with smart search refinement and focused learning paths." width="49%"></picture></a><a href="https://github.com/TechMaharishi/react_to_apk"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-02-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/card-02-light.svg"><img src="assets/card-02-dark.svg" alt="APK Automator: Upload a React build, get an Android APK. Wraps your app in Capacitor and builds it for you." width="49%"></picture></a></p>
-<p align="center"><a href="https://roadmap-psi-eight.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-03-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/card-03-light.svg"><img src="assets/card-03-dark.svg" alt="The Depth Roadmap: Self-hosted tracker for an 8-track learning roadmap. Username and PIN login, progress in MongoDB." width="49%"></picture></a><a href="https://webworks-xi.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-04-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/card-04-light.svg"><img src="assets/card-04-dark.svg" alt="WebWorks: Marketing site for a digital agency: strategic design, content and performance marketing." width="49%"></picture></a></p>
-<p align="center"><a href="https://pycray-xi.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-05-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/card-05-light.svg"><img src="assets/card-05-dark.svg" alt="Pycray: Mini event manager. Create, search and delete events with persistent local state." width="49%"></picture></a><a href="https://movix-eta-khaki.vercel.app"><picture><source media="(prefers-color-scheme: dark)" srcset="assets/card-06-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/card-06-light.svg"><img src="assets/card-06-dark.svg" alt="Movix: Movie and TV discovery with search, trending and top-rated lists, and infinite scroll." width="49%"></picture></a></p>
 
 <p align="center">
 <picture><source media="(prefers-color-scheme: dark)" srcset="assets/activity-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/activity-light.svg"><img src="assets/activity-dark.svg" alt="Contribution activity over the last 12 months" width="100%"></picture>
-</p>
-
-<p align="center">
-<picture><source media="(prefers-color-scheme: dark)" srcset="assets/footer-dark.svg"><source media="(prefers-color-scheme: light)" srcset="assets/footer-light.svg"><img src="assets/footer-dark.svg" alt="End of file" width="100%"></picture>
 </p>
