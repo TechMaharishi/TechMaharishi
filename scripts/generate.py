@@ -188,21 +188,23 @@ def wrap(s, n):
 
 # ── assets ───────────────────────────────────────────────────────────────────
 def build_hero(t):
-    H = 480
-    # dot centres sit on a 20px lattice offset (10,10) so the bg pattern lines up
-    pat = dot_bg_pattern(t, 20, 0, 0)
-    l1, _ = dot_text("VISHAL", 50, 90, 20, 6.5, t["display"])
-    l2, cols = dot_text("KUMAR", 50, 250, 20, 6.5, t["display"], 0.4)
-    red_x, red_y = 50 + (cols + 1) * 20, 250 + 6 * 20
+    H = 260
+    # one line: VISHAL (35 cols) + 3 blank cols + KUMAR (29 cols) + period.
+    # Dot centres sit on a 10px lattice offset (5,5) so the bg pattern lines up.
+    pitch, r, x0, y0 = 10, 3.5, 45, 95
+    pat = dot_bg_pattern(t, pitch, 0, 0, 0.9)
+    l1, _ = dot_text("VISHAL", x0, y0, pitch, r, t["display"])
+    l2, cols = dot_text("KUMAR", x0 + 38 * pitch, y0, pitch, r, t["display"], 0.4)
+    red_x, red_y = x0 + (38 + cols + 1) * pitch, y0 + 6 * pitch
     body = (
         panel(W, H, t)
         + f'<rect x="1" y="1" width="{W-2}" height="{H-2}" rx="15" fill="url(#dg)"/>'
-        + text(50, 46, "TECHMAHARISHI", "disp")
-        + text(750, 46, "FULL-STACK DEVELOPER", "lab", "end")
+        + text(45, 46, "TECHMAHARISHI", "disp")
+        + text(755, 46, "FULL-STACK DEVELOPER", "lab", "end")
         + l1 + l2
-        + f'<circle class="blink" cx="{red_x}" cy="{red_y}" r="7.5" fill="{ACCENT}"/>'
-        + text(50, 440, "CUSTOM SOFTWARE + PRODUCTS", "lab")
-        + text(750, 440, "GITHUB / SINCE 2018", "lab", "end")
+        + f'<circle class="blink" cx="{red_x}" cy="{red_y}" r="4.5" fill="{ACCENT}"/>'
+        + text(45, 222, "CUSTOM SOFTWARE + PRODUCTS", "lab")
+        + text(755, 222, "GITHUB / SINCE 2018", "lab", "end")
     )
     return svg(W, H, t, ["mono400"], "Vishal Kumar, full-stack developer", body, pat)
 
